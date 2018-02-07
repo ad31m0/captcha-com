@@ -3,7 +3,7 @@
     "description": "BotDetect 4 PHP Captcha Generator -- Free composer package.",
     "keywords": ["captcha"],
     "homepage": "http://captcha.com/php-captcha.html",
-    "license": "Commercial",
+    "license": "proprietary",
     "authors": [
         {
             "name": "BotDetect Captcha",
