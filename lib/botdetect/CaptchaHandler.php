@@ -7,7 +7,6 @@ while (ob_get_length()) {
 }
 ob_start();
 try {
-
   BDC_HttpHelper::FixEscapedQuerystrings();
   BDC_HttpHelper::CheckForIgnoredRequests();
 
@@ -27,6 +26,12 @@ try {
       break;
     case BDC_CaptchaHttpCommand::GetValidationResult:
       GetValidationResult();
+      break;
+    case BDC_CaptchaHttpCommand::GetInitScriptInclude:
+      GetInitScriptInclude();
+      break;
+    case BDC_CaptchaHttpCommand::GetP:
+      GetP();
       break;
     default:
       BDC_HttpHelper::BadRequest('command');
@@ -57,6 +62,10 @@ function GetImage() {
     BDC_HttpHelper::BadRequest('Instance doesn\'t exist');
   }
 
+  if(!$captcha->CaptchaBase->IsInstanceIdExisted($instanceId)) {
+    BDC_HttpHelper::BadRequest('Instance doesn\'t exist in session');
+  }
+
   // image generation invalidates sound cache, if any  
   ClearSoundData($instanceId); 
 
@@ -75,8 +84,8 @@ function GetImage() {
   header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 
   // image generation
-  $rawImage = $captcha->GetImage($instanceId);
-  $captcha->SaveCodeCollection(); // record generated Captcha code for validation
+  $rawImage = $captcha->CaptchaBase->GetImage($instanceId);
+  $captcha->CaptchaBase->SaveCodeCollection(); // record generated Captcha code for validation
   session_write_close();
 
   // output image bytes
@@ -102,6 +111,10 @@ function GetSound() {
   $instanceId = GetInstanceId();
   if (is_null($instanceId)) {
     BDC_HttpHelper::BadRequest('Instance doesn\'t exist');
+  }
+
+  if(!$captcha->CaptchaBase->IsInstanceIdExisted($instanceId)) {
+    BDC_HttpHelper::BadRequest('Instance doesn\'t exist in session');
   }
 
   $soundBytes = GetSoundData($captcha, $instanceId);
@@ -190,8 +203,8 @@ function GetSoundData($p_Captcha, $p_InstanceId) {
 }
 
 function GenerateSoundData($p_Captcha, $p_InstanceId) {
-  $rawSound = $p_Captcha->GetSound($p_InstanceId);
-  $p_Captcha->SaveCodeCollection(); // always record sound generation count
+  $rawSound = $p_Captcha->CaptchaBase->GetSound($p_InstanceId);
+  $p_Captcha->CaptchaBase->SaveCodeCollection(); // always record sound generation count
   return $rawSound;
 }
 
@@ -212,12 +225,25 @@ function ClearSoundData($p_InstanceId) {
 // requests by the Http headers they will always contain
 function DetectIosRangeRequest() {
   $detected = false;
-  if (array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER) &&
-      BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID']) &&
-      array_key_exists('HTTP_RANGE', $_SERVER) &&
+
+  if(array_key_exists('HTTP_RANGE', $_SERVER) &&
       BDC_StringHelper::HasValue($_SERVER['HTTP_RANGE'])) {
-    $detected = true;
-  }
+      
+      // Safari on MacOS and all browsers on <= iOS 10.x
+      if(array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER) &&
+      BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID'])) {
+        $detected = true;
+      }
+      
+      // all browsers on iOS 11.x and later
+      if(array_key_exists('User-Agent', $_SERVER) &&
+      BDC_StringHelper::HasValue($_SERVER['User-Agent'])) {
+        $userAgent = $_SERVER['User-Agent'];
+        if(strpos($userAgent, "iPhone OS") !== false || strpos($userAgent, "iPad") !== false) { // is iPhone or iPad
+            $detected = true;
+        }
+      }
+  } 
   return $detected;
 }
 
@@ -274,13 +300,46 @@ function GetValidationResult() {
   // JSON-encoded validation result
   $result = false;
    if (isset($userInput) && (isset($instanceId))) {
-    $result = $captcha->Validate($userInput, $instanceId, BDC_ValidationAttemptOrigin::Client);
-    $captcha->SaveCodeCollection();
+    $result = $captcha->AjaxValidate($userInput, $instanceId);
+    $captcha->CaptchaBase->SaveCodeCollection();
   }
   session_write_close();
   
   $resultJson = GetJsonValidationResult($result);
   echo $resultJson;
+}
+
+
+function GetInitScriptInclude() {
+  // saved data for the specified Captcha object in the application
+  $captcha = GetCaptchaObject();
+  if (is_null($captcha)) {
+    BDC_HttpHelper::BadRequest('captcha');
+  }
+
+  // identifier of the particular Captcha object instance
+  $instanceId = GetInstanceId();
+  if (is_null($instanceId)) {
+    BDC_HttpHelper::BadRequest('instance');
+  }
+
+  // response MIME type & headers
+  header('Content-Type: text/javascript');
+  header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
+
+  echo "(function() {\r\n";
+
+  // add init script
+  echo BDC_CaptchaScriptsHelper::GetInitScriptMarkup($captcha, $instanceId);
+
+  // add remote scripts if enabled
+  if ($captcha->RemoteScriptEnabled) {
+    echo "\r\n";
+    echo BDC_CaptchaScriptsHelper::GetRemoteScript($captcha);
+  }
+
+  // close a self-invoking functions
+  echo "\r\n})();";
 }
 
 
@@ -292,7 +351,13 @@ function GetCaptchaObject() {
     return;
   }
 
-  $captcha = new BDC_CaptchaBase($captchaId);
+  $captchaInstanceId = BDC_StringHelper::Normalize($_GET['t']);
+  if (!BDC_StringHelper::HasValue($captchaInstanceId) ||
+      !BDC_CaptchaBase::IsValidInstanceId($captchaInstanceId)) {
+    return;
+  }
+
+  $captcha = new Captcha($captchaId, $captchaInstanceId);
   return $captcha;
 }
 
@@ -334,6 +399,36 @@ function GetUserInput() {
 function GetJsonValidationResult($p_Result) {
   $resultStr = ($p_Result ? 'true': 'false');
   return $resultStr;
+}
+
+function GetP() {
+  $captcha = GetCaptchaObject();
+  if (is_null($captcha)) {
+    BDC_HttpHelper::BadRequest('captcha');
+  }
+  
+  $instanceId = GetInstanceId();
+  
+  if (is_null($instanceId)) {
+    BDC_HttpHelper::BadRequest('instance');
+  }
+  
+  // create new one
+  $p = new P($instanceId);
+  
+  // save
+  BDC_Persistence_Clear($captcha->get_CaptchaBase()->getPPersistenceKey($instanceId));
+  BDC_Persistence_Save($captcha->get_CaptchaBase()->getPPersistenceKey($instanceId), $p);
+  
+  // response data
+  $response = "{\"sp\":\"{$p->GSP()}\",\"hs\":\"{$p->GHs()}\"}";
+  
+  // response MIME type & headers
+  header('Content-Type: application/json');
+  header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
+  BDC_HttpHelper::SmartDisallowCache();
+  
+  echo $response;
 }
 
 ?>

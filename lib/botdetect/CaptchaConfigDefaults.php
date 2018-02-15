@@ -4,7 +4,7 @@ $BDC_CaptchaConfig = new stdClass();
 
 // Captcha codes
 // ---------------------------------------------------------------------------
-$BDC_CaptchaConfig->CodeLength = CaptchaRandomization::GetRandomCodeLength(4, 6);
+$BDC_CaptchaConfig->CodeLength = CaptchaRandomization::GetRandomCodeLength(2, 3);
 $BDC_CaptchaConfig->CodeStyle = CodeStyle::Alphanumeric;
 $BDC_CaptchaConfig->CodeTimeout = 1200;
 $BDC_CaptchaConfig->DisallowedCodeSubstrings = '';
@@ -19,6 +19,7 @@ $BDC_CaptchaConfig->ImageFormat = ImageFormat::Jpeg;
 $BDC_CaptchaConfig->CustomDarkColor = '';
 $BDC_CaptchaConfig->CustomLightColor = '';
 $BDC_CaptchaConfig->DisabledImageStyles = '';
+$BDC_CaptchaConfig->ImageColorMode = BDC_CaptchaDefaults::$ImageColorMode;
 
 // Captcha sounds
 // ---------------------------------------------------------------------------
@@ -62,6 +63,7 @@ $BDC_CaptchaConfig->AutoReloadExpiredCaptchas = true;
 $BDC_CaptchaConfig->AutoReloadTimeout = 7200; // 2 hours
 $BDC_CaptchaConfig->SoundStartDelay = 0;
 $BDC_CaptchaConfig->RemoteScriptEnabled = true;
+$BDC_CaptchaConfig->JavascriptRequired = true;
 
 // Captcha-related PHP applicaton settings
 // ---------------------------------------------------------------------------

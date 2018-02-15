@@ -1,6 +1,6 @@
-<?php // include BotDetect PHP CAPTCHA Library v4.1.0
+<?php // include BotDetect PHP CAPTCHA Library v4.2.0
 
-// Copyright © Captcha, Inc. (formerly Lanapsoft, Inc.) 2004-2016. All rights reserved.
+// Copyright © Captcha, Inc. (formerly Lanapsoft, Inc.) 2004-2018. All rights reserved.
 // BotDetect, BotDetect CAPTCHA, Lanap, Lanap CAPTCHA, Lanap BotDetect, Lanap BotDetect CAPTCHA, Lanapsoft, Lanapsoft CAPTCHA, Lanapsoft BotDetect, Lanapsoft BotDetect CAPTCHA, and Lanap Software are trademarks or registered trademarks of Captcha, Inc.
 
 
@@ -47,7 +47,7 @@ function BDC_NormalizePath($p_Path) {
 
 
 // 2. include required base class declarations
-require_once (BDC_INCLUDE_PATH . 'CaptchaIncludes.php');
+require_once(BDC_INCLUDE_PATH . 'CaptchaIncludes.php');
 
 
 // 3. include BotDetect configuration
@@ -70,14 +70,12 @@ function BDC_ApplyUserConfigOverride($CaptchaConfig, $CurrentCaptchaId) {
   return $BotDetect;
 }
 
-
 // 4. determine is this file included in a form/class, or requested directly
+require_once(BDC_INCLUDE_PATH . 'CaptchaClass.php');
+
 $BDC_RequestFilename = basename($_SERVER['REQUEST_URI']);
-if (BDC_StringHelper::StartsWith($BDC_RequestFilename, 'botdetect.php')) {
+if (BDC_StringHelper::StartsWith($BDC_RequestFilename, basename(__FILE__))) {
   // direct access, proceed as Captcha handler (serving images and sounds)
   require_once(BDC_INCLUDE_PATH . 'CaptchaHandler.php');
-} else {
-  // included in another file, proceed as Captcha class (form helper)
-  require_once(BDC_INCLUDE_PATH . 'CaptchaClass.php');
 }
 ?>

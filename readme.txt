@@ -5,7 +5,7 @@ Contents of the package:
   - lib/
   - examples/
   - changelog.txt
-  - license.html
+  - botdetect-license.html
 
 lib/: folder contains the BotDetect PHP redistributable package which can be copied and included in your PHP sites.
 
@@ -13,4 +13,4 @@ examples/: folder contains BotDetect PHP library code examples and demos. You ca
 
 changelog.txt: file contains the version history of BotDetect PHP Captcha library releases.
 
-license.html: file contains the licensing terms for using BotDetect PHP Captcha library.
+botdetect-license.html: file contains the licensing terms for using BotDetect PHP Captcha library.
