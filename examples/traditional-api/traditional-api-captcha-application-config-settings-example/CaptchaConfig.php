@@ -432,7 +432,7 @@ $BotDetect->AddScriptInclude = false;
 // Valid user add init script setting values are booleans.
 // Adding the initialization script fragment should be turned off only if you 
 // will manually add the necessary <script> code to form <head> for example.
-$BotDetect->AddInitScript = true;
+$BotDetect->AddInitScriptInclude = true;
 
 // Should user Captcha code input be automatically uppercased on the fly.
 // The default value is true.

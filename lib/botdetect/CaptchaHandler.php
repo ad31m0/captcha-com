@@ -62,9 +62,6 @@ function GetImage() {
     BDC_HttpHelper::BadRequest('Instance doesn\'t exist');
   }
 
-  if(!$captcha->CaptchaBase->IsInstanceIdExisted($instanceId)) {
-    BDC_HttpHelper::BadRequest('Instance doesn\'t exist in session');
-  }
 
   // image generation invalidates sound cache, if any  
   ClearSoundData($instanceId); 
@@ -111,10 +108,6 @@ function GetSound() {
   $instanceId = GetInstanceId();
   if (is_null($instanceId)) {
     BDC_HttpHelper::BadRequest('Instance doesn\'t exist');
-  }
-
-  if(!$captcha->CaptchaBase->IsInstanceIdExisted($instanceId)) {
-    BDC_HttpHelper::BadRequest('Instance doesn\'t exist in session');
   }
 
   $soundBytes = GetSoundData($captcha, $instanceId);
@@ -342,13 +335,26 @@ function GetInitScriptInclude() {
   echo "\r\n})();";
 }
 
+function GetCaptchaId() {
+  $captchaId = $_GET['c'];
+  
+  if (!BDC_StringHelper::HasValue($captchaId)) {
+    return null;
+  }
+  
+  if (1 !== preg_match(BDC_CaptchaBase::VALID_CAPTCHA_ID, $captchaId)) {
+    return null;
+  }
+  
+  return $captchaId;
+}
 
 // gets Captcha instance according to the CaptchaId passed in querystring
 function GetCaptchaObject() {
-  $captchaId = BDC_StringHelper::Normalize($_GET['c']);
-  if (!BDC_StringHelper::HasValue($captchaId) ||
-      !BDC_CaptchaBase::IsValidCaptchaId($captchaId)) {
-    return;
+  $captchaId = GetCaptchaId();
+  
+  if (!BDC_StringHelper::HasValue($captchaId)) {
+    BDC_HttpHelper::BadRequest('Invalid captcha id.');
   }
 
   $captchaInstanceId = BDC_StringHelper::Normalize($_GET['t']);
@@ -364,7 +370,7 @@ function GetCaptchaObject() {
 
 // extract the exact Captcha code instance referenced by the request
 function GetInstanceId() {
-  $instanceId = BDC_StringHelper::Normalize($_GET['t']);
+  $instanceId = $_GET['t'];
   if (!BDC_StringHelper::HasValue($instanceId) ||
       !BDC_CaptchaBase::IsValidInstanceId($instanceId)) {
     return;
@@ -414,14 +420,11 @@ function GetP() {
   }
   
   // create new one
-  $p = new P($instanceId);
-  
-  // save
-  BDC_Persistence_Clear($captcha->get_CaptchaBase()->getPPersistenceKey($instanceId));
-  BDC_Persistence_Save($captcha->get_CaptchaBase()->getPPersistenceKey($instanceId), $p);
+  $p = $captcha->GenPw($instanceId);
+  $captcha->SavePw($captcha);
   
   // response data
-  $response = "{\"sp\":\"{$p->GSP()}\",\"hs\":\"{$p->GHs()}\"}";
+  $response = "{\"sp\":\"{$p->GetSP()}\",\"hs\":\"{$p->GetHs()}\"}";
   
   // response MIME type & headers
   header('Content-Type: application/json');

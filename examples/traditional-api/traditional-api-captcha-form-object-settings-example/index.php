@@ -58,7 +58,7 @@
         $Captcha1->AdditionalInlineCss = "border: 4px solid #fff; background-color: #f8f8f8;";
         
         $Captcha1->AddScriptInclude = false;
-        $Captcha1->AddInitScript = true;
+        $Captcha1->AddInitScriptInclude = true;
         $Captcha1->AutoUppercaseInput = true;
         $Captcha1->AutoFocusInput = true;
         $Captcha1->AutoClearInput = true;
@@ -142,7 +142,7 @@
         $Captcha2->AdditionalInlineCss = '';
         
         $Captcha2->AddScriptInclude = false;
-        $Captcha2->AddInitScript = true;
+        $Captcha2->AddInitScriptInclude = true;
         $Captcha2->AutoUppercaseInput = false;
         $Captcha2->AutoFocusInput = false;
         $Captcha2->AutoClearInput = false;
@@ -202,7 +202,7 @@
           <li>It also has limited sound functionality, replacing the CAPTCHA sound with "SOUND DEMO" for randomly selected 50% of all CAPTCHA codes.</li>
           <li>Lastly, the bottom 10 px of the CAPTCHA image are reserved for a link to the BotDetect website.</li>
         </ul>
-        <p>These limitations are removed if you <a rel="nofollow" href="http://captcha.com/shop.html?utm_source=installation&amp;utm_medium=php&amp;utm_campaign=4.2.0" title="BotDetect CAPTCHA online store, pricing information, payment options, licensing &amp; upgrading">upgrade</a> your BotDetect license.</p>
+        <p>These limitations are removed if you <a rel="nofollow" href="http://captcha.com/shop.html?utm_source=installation&amp;utm_medium=php&amp;utm_campaign=4.2.1" title="BotDetect CAPTCHA online store, pricing information, payment options, licensing &amp; upgrading">upgrade</a> your BotDetect license.</p>
       </div>
       <?php } ?>
     </div>

@@ -55,7 +55,7 @@ $BDC_CaptchaConfig->AdditionalInlineCss = '';
 // Captcha client-side
 // ---------------------------------------------------------------------------
 $BDC_CaptchaConfig->AddScriptInclude = true;
-$BDC_CaptchaConfig->AddInitScript = true;
+$BDC_CaptchaConfig->AddInitScriptInclude = true;
 $BDC_CaptchaConfig->AutoUppercaseInput = true;
 $BDC_CaptchaConfig->AutoFocusInput = true;
 $BDC_CaptchaConfig->AutoClearInput = true;
@@ -63,7 +63,7 @@ $BDC_CaptchaConfig->AutoReloadExpiredCaptchas = true;
 $BDC_CaptchaConfig->AutoReloadTimeout = 7200; // 2 hours
 $BDC_CaptchaConfig->SoundStartDelay = 0;
 $BDC_CaptchaConfig->RemoteScriptEnabled = true;
-$BDC_CaptchaConfig->JavascriptRequired = true;
+$BDC_CaptchaConfig->JavaScriptRequired = true;
 
 // Captcha-related PHP applicaton settings
 // ---------------------------------------------------------------------------

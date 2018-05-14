@@ -2,7 +2,7 @@
 <botdetect xmlns="https://captcha.com/schema/php"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://captcha.com/schema/php
-            https://captcha.com/schema/php/botdetect-4.2.0.xsd">
+            https://captcha.com/schema/php/botdetect-4.2.1.xsd">
 
     <captchaStyles>
         <captchaStyle>
@@ -45,7 +45,7 @@
 
             <addCssInclude>false</addCssInclude>
             <addScriptInclude>false</addScriptInclude>
-            <addInitScript>true</addInitScript>
+            <addInitScriptInclude>true</addInitScriptInclude>
             <autoUppercaseInput>true</autoUppercaseInput>
             <autoFocusInput>true</autoFocusInput>
             <autoClearInput>true</autoClearInput>
@@ -96,7 +96,7 @@
 
             <addCssInclude>false</addCssInclude>
             <addScriptInclude>false</addScriptInclude>
-            <addInitScript>true</addInitScript>
+            <addInitScriptInclude>true</addInitScriptInclude>
             <autoUppercaseInput>false</autoUppercaseInput>
             <autoFocusInput>false</autoFocusInput>
             <autoClearInput>false</autoClearInput>

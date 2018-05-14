@@ -108,7 +108,10 @@ function GetImage() {
   }
 
   $rawImage = GetImageData($captcha);
-
+  if($rawImage == null) {
+    return null;
+  }
+  
   // MIME type
   $imageType = ImageFormat::GetName($captcha->ImageFormat);
   $imageType = strtolower($imageType[0]);
@@ -197,6 +200,10 @@ function GetSound() {
     BDC_HttpHelper::BadRequest('Captcha Id doesn\'t exist');
   }
 
+  if (IsObviousBotRequest($captcha)) {
+    return;
+  }
+  
   $soundBytes = GetSoundData($captcha, $captchaId);
   session_write_close();
 
@@ -364,7 +371,7 @@ function GetHtml() {
 
   $corsAuth = new CorsAuth();
   if (!$corsAuth->IsClientAllowed()) {
-    //BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
     return null;
   }
 
@@ -380,7 +387,7 @@ function GetHtml() {
 // Used for client-side validation, returns Captcha validation result as JSON
 function GetValidationResult() {
   header("Access-Control-Allow-Origin: *");
-
+  
   // authenticate client-side request
   $corsAuth = new CorsAuth();
   if (!$corsAuth->IsClientAllowed()) {
@@ -470,7 +477,7 @@ function GetScriptInclude() {
   header("Access-Control-Allow-Origin: *");
 
   $filePath = BDC_URL_ROOT . 'bdc-simple-api-script-include.js';
-  echo GetWebResource($filePath, 'text/javascript');
+  echo GetWebResource($filePath, 'text/javascript', false);
 }
 
 function GetInitScriptInclude() {
@@ -506,20 +513,33 @@ function GetInitScriptInclude() {
   echo "\r\n})();";
 }
 
+function GetCaptchaStyleName() {
+  $captchaStyleName = $_GET['c'];
+
+  if (!BDC_StringHelper::HasValue($captchaStyleName)) {
+      return null;
+  }
+  
+  if (1 !== preg_match(BDC_SimpleCaptchaBase::VALID_CAPTCHA_STYLE_NAME, $captchaStyleName)) {
+      return null;
+  }
+  
+  return $captchaStyleName;
+}
+    
 // gets Captcha instance according to the CaptchaId passed in querystring
 function GetCaptchaObject() {
-  $captchaStyleName = BDC_StringHelper::Normalize($_GET['c']);
-  if (!BDC_StringHelper::HasValue($captchaStyleName) ||
-      !BDC_CaptchaBase::IsValidCaptchaId($captchaStyleName)
-  ) {
-    return;
+  $captchaStyleName = GetCaptchaStyleName();
+
+  if (!BDC_StringHelper::HasValue($captchaStyleName)) {
+    BDC_HttpHelper::BadRequest('Invalid style name.');
   }
 
   $captchaId = null;
   if (isset($_GET['t'])) {
     $captchaId = BDC_StringHelper::Normalize($_GET['t']);
-    if (!BDC_SimpleCaptchaBase::IsValidCaptchaId($captchaId)) {
-      return;
+    if (1 !== preg_match(BDC_SimpleCaptchaBase::VALID_CAPTCHA_ID, $captchaId)) {
+      return null;
     }
   }
 
@@ -528,9 +548,11 @@ function GetCaptchaObject() {
 }
 
 
-function GetWebResource($p_Resource, $p_MimeType) {
+function GetWebResource($p_Resource, $p_MimeType, $hasEtag = true) {
   header("Content-Type: $p_MimeType");
-  BDC_HttpHelper::AllowEtagCache($p_Resource);
+  if($hasEtag) {
+    BDC_HttpHelper::AllowEtagCache($p_Resource);
+  }
 
   return file_get_contents($p_Resource);
 }
@@ -544,7 +566,7 @@ function IsObviousBotRequest(SimpleCaptcha $p_Captcha) {
   $captchaRequestValidator->RecordRequest();
 
   if ($captchaRequestValidator->IsObviousBotAttempt()) {
-    BDC_HttpHelper::BadRequest('IsObviousBotAttempt');
+    BDC_HttpHelper::TooManyRequests('IsObviousBotAttempt');
   }
 
   return false;
@@ -552,12 +574,20 @@ function IsObviousBotRequest(SimpleCaptcha $p_Captcha) {
 
 // extract the exact Captcha code instance referenced by the request
 function GetCaptchaId() {
-  $captchaId = BDC_StringHelper::Normalize($_GET['t']);
-  if (!BDC_StringHelper::HasValue($captchaId) ||
-      !BDC_SimpleCaptchaBase::IsValidCaptchaId($captchaId)
-  ) {
+  $captchaId = $_GET['t'];
+  if (!BDC_StringHelper::HasValue($captchaId)) {
     return;
   }
+  
+  // captchaId consists of 32 lowercase hexadecimal digits
+  if(strlen($captchaId) != 32) {
+    return null;
+  }
+  
+  if (1 !== preg_match(BDC_SimpleCaptchaBase::VALID_CAPTCHA_ID, $captchaId)) {
+      return null;
+  }
+  
   return $captchaId;
 }
 
@@ -623,14 +653,14 @@ function GetP() {
     BDC_HttpHelper::BadRequest('Captcha Id doesn\'t exist');
   }
   
-  // create new one
-  $p = new P($captchaId);
+  // generate new pow for the current instance id
+  $p = $captcha->GenPw($captchaId);
   
   // save
-  $captcha->get_CaptchaPersistence()->SaveP($captchaId, $p);
+  $captcha->SavePw($captcha, $captchaId);
   
   // response data
-  $response = "{\"sp\":\"{$p->GSP()}\",\"hs\":\"{$p->GHs()}\"}";
+  $response = "{\"sp\":\"{$p->GetSP()}\",\"hs\":\"{$p->GetHs()}\"}";
   
   // response MIME type & headers
   header('Content-Type: application/json');
