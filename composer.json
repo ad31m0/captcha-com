@@ -23,7 +23,7 @@
         "captcha-com/symfony-captcha-bundle": "BotDetect 4 PHP Captcha generator integration for the Symfony framework."
     },
     "require": {
-        "php": ">=5.2.1"
+        "php": ">=5.3.0"
     },
     "extra": {
         "branch-alias": {

@@ -28,7 +28,7 @@
         <?php // when the form is submitted
           if ($_POST) {
             // validate the Captcha to check we're not dealing with a bot
-            $isHuman = $ExampleCaptcha->Validate();
+            $isHuman = $ExampleCaptcha->Validate($_POST['CaptchaCode']);
 
             if (!$isHuman) {
               // Captcha validation failed, show error message
@@ -63,7 +63,7 @@
           <li>It also has limited sound functionality, replacing the CAPTCHA sound with "SOUND DEMO" for randomly selected 50% of all CAPTCHA codes.</li>
           <li>Lastly, the bottom 10 px of the CAPTCHA image are reserved for a link to the BotDetect website.</li>
         </ul>
-        <p>These limitations are removed if you <a rel="nofollow" href="http://captcha.com/shop.html?utm_source=installation&amp;utm_medium=php&amp;utm_campaign=4.2.1" title="BotDetect CAPTCHA online store, pricing information, payment options, licensing &amp; upgrading">upgrade</a> your BotDetect license.</p>
+        <p>These limitations are removed if you <a rel="nofollow" href="http://captcha.com/shop.html?utm_source=installation&amp;utm_medium=php&amp;utm_campaign=4.2.2" title="BotDetect CAPTCHA online store, pricing information, payment options, licensing &amp; upgrading">upgrade</a> your BotDetect license.</p>
       </div>
       <?php } ?>
     </div>

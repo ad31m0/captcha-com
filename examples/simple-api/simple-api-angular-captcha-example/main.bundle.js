@@ -1,6 +1,6 @@
 webpackJsonp(["main"],{
 
-/***/ "../../../../../src/$$_lazy_route_resource lazy recursive":
+/***/ "./src/$$_lazy_route_resource lazy recursive":
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -13,19 +13,19 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = "../../../../../src/$$_lazy_route_resource lazy recursive";
+webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
-/***/ "../../../../../src/app/app-routing.module.ts":
+/***/ "./src/app/app-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_basic_component__ = __webpack_require__("../../../../../src/app/basic/basic.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_contact_component__ = __webpack_require__("../../../../../src/app/contact/contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_basic_component__ = __webpack_require__("./src/app/basic/basic.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_contact_component__ = __webpack_require__("./src/app/contact/contact.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,37 +57,26 @@ var AppRoutingModule = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/app.component.css":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/app/app.component.css":
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
+module.exports = ""
 
 /***/ }),
 
-/***/ "../../../../../src/app/app.component.html":
+/***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
 module.exports = "<header>\n  <div class=\"header-content\"><h1>BotDetect Angular CAPTCHA Examples</h1></div>\n</header>\n\n<nav>\n  <ul class=\"nav\">\n    <li><a routerLink=\"/basic\" routerLinkActive=\"active\">Basic Example</a></li>\n    <li><a routerLink=\"/contact\" routerLinkActive=\"active\">Contact Example</a></li>\n  </ul>\n</nav>\n\n<section id=\"main-content\">\n  <router-outlet></router-outlet>\n</section>\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/app.component.ts":
+/***/ "./src/app/app.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -102,8 +91,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-root',
-            template: __webpack_require__("../../../../../src/app/app.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/app.component.css")]
+            template: __webpack_require__("./src/app/app.component.html"),
+            styles: [__webpack_require__("./src/app/app.component.css")]
         })
     ], AppComponent);
     return AppComponent;
@@ -113,22 +102,22 @@ var AppComponent = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/app.module.ts":
+/***/ "./src/app/app.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular_captcha__ = __webpack_require__("../../../../angular-captcha/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular_captcha__ = __webpack_require__("./node_modules/angular-captcha/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular_captcha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_angular_captcha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__basic_basic_component__ = __webpack_require__("../../../../../src/app/basic/basic.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__contact_contact_component__ = __webpack_require__("../../../../../src/app/contact/contact.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__values_pipe__ = __webpack_require__("../../../../../src/app/values.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__basic_basic_component__ = __webpack_require__("./src/app/basic/basic.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__contact_contact_component__ = __webpack_require__("./src/app/contact/contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__values_pipe__ = __webpack_require__("./src/app/values.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -177,40 +166,29 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/basic/basic.component.css":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/app/basic/basic.component.css":
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  margin-top: 10px;\r\n}\r\n\r\nlabel span {\r\n  display: block;\r\n  margin-bottom: 3px;\r\n  font-weight: bold;\r\n  font-size: 12px;\r\n}\r\n\r\ninput[type=\"text\"],\r\ninput[type=\"email\"] {\r\n  width: 261px;\r\n  height: 25px;\r\n  padding: 0 5px;\r\n}\r\n\r\n.alert {\r\n  padding: 5px;\r\n  margin-bottom: 10px;\r\n  font-size: 12px;\r\n}\r\n\r\n.alert-success {\r\n  background: #5db95d;\r\n  color: #fff;\r\n  border: 1px solid #4e974e;\r\n}\r\n\r\n.alert-error {\r\n  background: #db4f4a;\r\n  color: #fff;\r\n  border: 1px solid #b0352f;\r\n}\r\n\r\n.error {\r\n  color: red;\r\n  font-size: 12px;\r\n}\r\n\r\nbutton {\r\n  margin-top: 10px;\r\n}\r\n", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
+module.exports = "label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  margin-top: 10px;\r\n}\r\n\r\nlabel span {\r\n  display: block;\r\n  margin-bottom: 3px;\r\n  font-weight: bold;\r\n  font-size: 12px;\r\n}\r\n\r\ninput[type=\"text\"],\r\ninput[type=\"email\"] {\r\n  width: 261px;\r\n  height: 25px;\r\n  padding: 0 5px;\r\n}\r\n\r\n.alert {\r\n  padding: 5px;\r\n  margin-bottom: 10px;\r\n  font-size: 12px;\r\n}\r\n\r\n.alert-success {\r\n  background: #5db95d;\r\n  color: #fff;\r\n  border: 1px solid #4e974e;\r\n}\r\n\r\n.alert-error {\r\n  background: #db4f4a;\r\n  color: #fff;\r\n  border: 1px solid #b0352f;\r\n}\r\n\r\n.error {\r\n  color: red;\r\n  font-size: 12px;\r\n}\r\n\r\nbutton {\r\n  margin-top: 10px;\r\n}\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/basic/basic.component.html":
+/***/ "./src/app/basic/basic.component.html":
 /***/ (function(module, exports) {
 
 module.exports = "<form novalidate #f=\"ngForm\" (ngSubmit)=\"validate(f.value, f.valid)\">\r\n\r\n  <div class=\"alert alert-success\" *ngIf=\"successMessages\">\r\n    {{ successMessages }}\r\n  </div>\r\n\r\n  <div class=\"alert alert-error\" *ngIf=\"errorMessages\">\r\n    {{ errorMessages }}\r\n  </div>\r\n\r\n  <!-- show captcha html -->\r\n  <botdetect-captcha styleName=\"angularBasicCaptcha\"></botdetect-captcha>  \r\n\r\n  <label>\r\n    <span>Retype the characters from the picture:</span>\r\n    <input\r\n      type=\"text\"\r\n      id=\"captchaCode\"\r\n      name=\"captchaCode\"\r\n      ngModel\r\n      #captchaCode=\"ngModel\"\r\n      correctCaptcha\r\n      >\r\n  </label>\r\n\r\n  <div\r\n    class=\"error\"\r\n    *ngIf=\"captchaCode.errors?.incorrectCaptcha && !captchaCode.pristine\"\r\n    >\r\n    Incorrect code.\r\n  </div>\r\n\r\n  <button type=\"submit\" [disabled]=\"f.invalid\">Validate</button>\r\n</form>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/basic/basic.component.ts":
+/***/ "./src/app/basic/basic.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_captcha__ = __webpack_require__("../../../../angular-captcha/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_captcha__ = __webpack_require__("./node_modules/angular-captcha/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_captcha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_captcha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_service__ = __webpack_require__("../../../../../src/app/basic/basic.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_service__ = __webpack_require__("./src/app/basic/basic.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -236,7 +214,7 @@ var BasicComponent = (function () {
             return;
         }
         var postData = {
-            captchaCode: value.captchaCode,
+            captchaCode: this.captchaComponent.captchaCode,
             captchaId: this.captchaComponent.captchaId
         };
         this.basicService.validateCaptcha(postData)
@@ -266,8 +244,8 @@ var BasicComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             moduleId: module.i,
             selector: 'basic-form',
-            template: __webpack_require__("../../../../../src/app/basic/basic.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/basic/basic.component.css")],
+            template: __webpack_require__("./src/app/basic/basic.component.html"),
+            styles: [__webpack_require__("./src/app/basic/basic.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_2__basic_service__["a" /* BasicService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__basic_service__["a" /* BasicService */]])
@@ -279,14 +257,14 @@ var BasicComponent = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/basic/basic.service.ts":
+/***/ "./src/app/basic/basic.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("./node_modules/rxjs/_esm5/Rx.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -323,41 +301,30 @@ var BasicService = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/contact/contact.component.css":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/app/contact/contact.component.css":
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  margin-top: 10px;\r\n}\r\n\r\nlabel span {\r\n  display: block;\r\n  margin-bottom: 3px;\r\n  font-weight: bold;\r\n  font-size: 12px;\r\n}\r\n\r\ninput[type=\"text\"],\r\ninput[type=\"email\"] {\r\n  width: 261px;\r\n  height: 25px;\r\n  padding: 0 5px;\r\n}\r\n\r\ntextarea {\r\n  width: 269px;\r\n  height: 50px;\r\n}\r\n\r\n.textarea-error {\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.alert {\r\n  padding: 5px;\r\n  margin-bottom: 10px;\r\n  font-size: 12px;\r\n}\r\n\r\n.alert-success {\r\n  background: #5db95d;\r\n  color: #fff;\r\n  border: 1px solid #4e974e;\r\n}\r\n\r\n.alert-error {\r\n  background: #db4f4a;\r\n  color: #fff;\r\n  border: 1px solid #b0352f;\r\n}\r\n\r\n.error {\r\n  color: red;\r\n  font-size: 12px;\r\n}\r\n\r\n.list-messages {\r\n  margin: 0; padding: 0;\r\n}\r\n\r\nbutton {\r\n  margin-top: 10px;\r\n}\r\n", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
+module.exports = "label {\r\n  display: block;\r\n  margin-bottom: 5px;\r\n  margin-top: 10px;\r\n}\r\n\r\nlabel span {\r\n  display: block;\r\n  margin-bottom: 3px;\r\n  font-weight: bold;\r\n  font-size: 12px;\r\n}\r\n\r\ninput[type=\"text\"],\r\ninput[type=\"email\"] {\r\n  width: 261px;\r\n  height: 25px;\r\n  padding: 0 5px;\r\n}\r\n\r\ntextarea {\r\n  width: 269px;\r\n  height: 50px;\r\n}\r\n\r\n.textarea-error {\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.alert {\r\n  padding: 5px;\r\n  margin-bottom: 10px;\r\n  font-size: 12px;\r\n}\r\n\r\n.alert-success {\r\n  background: #5db95d;\r\n  color: #fff;\r\n  border: 1px solid #4e974e;\r\n}\r\n\r\n.alert-error {\r\n  background: #db4f4a;\r\n  color: #fff;\r\n  border: 1px solid #b0352f;\r\n}\r\n\r\n.error {\r\n  color: red;\r\n  font-size: 12px;\r\n}\r\n\r\n.list-messages {\r\n  margin: 0; padding: 0;\r\n}\r\n\r\nbutton {\r\n  margin-top: 10px;\r\n}\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/contact/contact.component.html":
+/***/ "./src/app/contact/contact.component.html":
 /***/ (function(module, exports) {
 
 module.exports = "<form novalidate (ngSubmit)=\"send(contact)\" [formGroup]=\"contact\">\r\n\r\n  <div class=\"alert alert-success\" *ngIf=\"successMessages\">\r\n    {{ successMessages }}\r\n  </div>\r\n\r\n  <div class=\"alert alert-error\" *ngIf=\"errorMessages\">\r\n    <ul class=\"list-messages\">\r\n      <li *ngFor=\"let error of errorMessages | values\">\r\n        {{ error }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n\r\n  <label>\r\n    <span>Name:</span>\r\n    <input\r\n      type=\"text\"\r\n      name=\"name\"\r\n      formControlName=\"name\">\r\n  </label>\r\n\r\n  <div\r\n    class=\"error\"\r\n    *ngIf=\"contact.get('name').hasError('minlength') && contact.get('name').touched\"\r\n    >\r\n    Name must be at least 3 characters.\r\n  </div>\r\n\r\n\r\n  <label>\r\n    <span>Email:</span>\r\n    <input\r\n      type=\"email\"\r\n      name=\"email\"\r\n      formControlName=\"email\">\r\n  </label>\r\n\r\n  <div\r\n    class=\"error\"\r\n    *ngIf=\"contact.get('email').hasError('pattern') && contact.get('email').touched\"\r\n    >\r\n    Email is invalid.\r\n  </div>\r\n\r\n\r\n  <label>\r\n    <span>Subject:</span>\r\n    <input\r\n      type=\"text\"\r\n      name=\"subject\"\r\n      formControlName=\"subject\">\r\n  </label>\r\n\r\n  <div\r\n    class=\"error\"\r\n    *ngIf=\"contact.get('subject').hasError('minlength') && contact.get('subject').touched\"\r\n    >\r\n    Subject must be at least 10 characters.\r\n  </div>\r\n\r\n\r\n  <label>\r\n    <span>Message:</span>\r\n    <textarea\r\n      name=\"message\"\r\n      formControlName=\"message\"></textarea>\r\n  </label>\r\n\r\n  <div\r\n    class=\"error textarea-error\"\r\n    *ngIf=\"contact.get('message').hasError('minlength') && contact.get('message').touched\"\r\n    >\r\n    Message must be at least 10 characters.\r\n  </div>\r\n  \r\n  <!-- show captcha html -->\r\n  <botdetect-captcha styleName=\"angularFormCaptcha\"></botdetect-captcha>\r\n\r\n  <label>\r\n    <span>Retype the characters from the picture:</span>\r\n    <input\r\n      type=\"text\"\r\n      id=\"captchaCode\"\r\n      name=\"captchaCode\"\r\n      formControlName=\"captchaCode\"\r\n      correctCaptcha\r\n      >\r\n  </label>\r\n\r\n  <div\r\n    class=\"error\"\r\n    *ngIf=\"contact.get('captchaCode').hasError('incorrectCaptcha') && !contact.get('captchaCode').pristine\"\r\n    >\r\n    Incorrect code.\r\n  </div>\r\n\r\n  <button type=\"submit\" [disabled]=\"contact.invalid\">Send</button>\r\n</form>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/contact/contact.component.ts":
+/***/ "./src/app/contact/contact.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_captcha__ = __webpack_require__("../../../../angular-captcha/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_captcha__ = __webpack_require__("./node_modules/angular-captcha/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_captcha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular_captcha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_service__ = __webpack_require__("../../../../../src/app/contact/contact.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_service__ = __webpack_require__("./src/app/contact/contact.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -392,9 +359,14 @@ var ContactComponent = (function () {
         if (!valid) {
             return;
         }
-        var postData = value;
-        // add captcha captcha id to postData for validating captcha at server-side
-        postData['captchaId'] = this.captchaComponent.captchaId;
+        var postData = {
+            name: value.name,
+            email: value.email,
+            subject: value.subject,
+            message: value.message,
+            captchaCode: this.captchaComponent.captchaCode,
+            captchaId: this.captchaComponent.captchaId
+        };
         this.contactService.send(postData)
             .subscribe(function (response) {
             if (response.success) {
@@ -422,8 +394,8 @@ var ContactComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             moduleId: module.i,
             selector: 'contact-form',
-            template: __webpack_require__("../../../../../src/app/contact/contact.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/contact/contact.component.css")],
+            template: __webpack_require__("./src/app/contact/contact.component.html"),
+            styles: [__webpack_require__("./src/app/contact/contact.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"],
@@ -436,14 +408,14 @@ var ContactComponent = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/contact/contact.service.ts":
+/***/ "./src/app/contact/contact.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("./node_modules/rxjs/_esm5/Rx.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -480,12 +452,12 @@ var ContactService = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/values.pipe.ts":
+/***/ "./src/app/values.pipe.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ValuesPipe; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -509,7 +481,7 @@ var ValuesPipe = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/environments/environment.ts":
+/***/ "./src/environments/environment.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -521,15 +493,15 @@ var environment = {
 
 /***/ }),
 
-/***/ "../../../../../src/main.ts":
+/***/ "./src/main.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__("../../../platform-browser-dynamic/esm5/platform-browser-dynamic.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__("../../../../../src/app/app.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__("./node_modules/@angular/platform-browser-dynamic/esm5/platform-browser-dynamic.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__("./src/app/app.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("./src/environments/environment.ts");
 
 
 
@@ -546,7 +518,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("../../../../../src/main.ts");
+module.exports = __webpack_require__("./src/main.ts");
 
 
 /***/ })

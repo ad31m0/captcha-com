@@ -4,7 +4,7 @@ $BDC_CaptchaConfig = new stdClass();
 
 // Captcha codes
 // ---------------------------------------------------------------------------
-$BDC_CaptchaConfig->CodeLength = CaptchaRandomization::GetRandomCodeLength(2, 3);
+$BDC_CaptchaConfig->CodeLength = CaptchaRandomization::GetRandomCodeLength(4, 6);
 $BDC_CaptchaConfig->CodeStyle = CodeStyle::Alphanumeric;
 $BDC_CaptchaConfig->CodeTimeout = 1200;
 $BDC_CaptchaConfig->DisallowedCodeSubstrings = '';

@@ -111,7 +111,8 @@ function GetSound() {
   }
 
   $soundBytes = GetSoundData($captcha, $instanceId);
-  session_write_close();
+
+  if (is_callable('session_write_close')) { session_write_close(); }
   
   if (is_null($soundBytes)) {
     BDC_HttpHelper::BadRequest('Please reload the form page before requesting another Captcha sound');
@@ -174,6 +175,7 @@ function GetSound() {
 
 
 function GetSoundData($p_Captcha, $p_InstanceId) {
+
   $shouldCache = (
     ($p_Captcha->SoundRegenerationMode == SoundRegenerationMode::None) || // no sound regeneration allowed, so we must cache the first and only generated sound
     DetectIosRangeRequest() // keep the same Captcha sound across all chunked iOS requests
@@ -217,27 +219,27 @@ function ClearSoundData($p_InstanceId) {
 // Instead of relying on unreliable user agent checks, we detect the iOS sound
 // requests by the Http headers they will always contain
 function DetectIosRangeRequest() {
-  $detected = false;
+  if (array_key_exists('HTTP_RANGE', $_SERVER) 
+        && BDC_StringHelper::HasValue($_SERVER['HTTP_RANGE'])) {
+      
+    // Safari on MacOS and all browsers on <= iOS 10.x
+    if (array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER)
+          && BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID'])) {
+      return true;
+    }
+    
+    $userAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? $_SERVER['HTTP_USER_AGENT'] : null;
 
-  if(array_key_exists('HTTP_RANGE', $_SERVER) &&
-      BDC_StringHelper::HasValue($_SERVER['HTTP_RANGE'])) {
-      
-      // Safari on MacOS and all browsers on <= iOS 10.x
-      if(array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER) &&
-      BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID'])) {
-        $detected = true;
+    // all browsers on iOS 11.x and later
+    if (BDC_StringHelper::HasValue($userAgent)) {
+      $userAgentLC = BDC_StringHelper::Lowercase($userAgent);
+      if (BDC_StringHelper::Contains($userAgentLC, "like mac os")) {
+        return true;
       }
-      
-      // all browsers on iOS 11.x and later
-      if(array_key_exists('User-Agent', $_SERVER) &&
-      BDC_StringHelper::HasValue($_SERVER['User-Agent'])) {
-        $userAgent = $_SERVER['User-Agent'];
-        if(strpos($userAgent, "iPhone OS") !== false || strpos($userAgent, "iPad") !== false) { // is iPhone or iPad
-            $detected = true;
-        }
-      }
-  } 
-  return $detected;
+    }
+  }
+
+  return false;
 }
 
 function GetSoundByteRange() {
@@ -320,19 +322,21 @@ function GetInitScriptInclude() {
   header('Content-Type: text/javascript');
   header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 
-  echo "(function() {\r\n";
+  $script = "(function() {\r\n";
 
   // add init script
   echo BDC_CaptchaScriptsHelper::GetInitScriptMarkup($captcha, $instanceId);
 
   // add remote scripts if enabled
   if ($captcha->RemoteScriptEnabled) {
-    echo "\r\n";
-    echo BDC_CaptchaScriptsHelper::GetRemoteScript($captcha);
+    $script .= "\r\n";
+    $script .= BDC_CaptchaScriptsHelper::GetRemoteScript($captcha);
   }
 
   // close a self-invoking functions
-  echo "\r\n})();";
+  $script .= "\r\n})();";
+
+  echo $script;
 }
 
 function GetCaptchaId() {

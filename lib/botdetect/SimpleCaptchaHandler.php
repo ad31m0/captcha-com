@@ -217,8 +217,7 @@ function GetSound() {
   // response headers
   BDC_HttpHelper::SmartDisallowCache();
 
-  $mimeType = $captcha->SoundMimeType;
-  header("Content-Type: {$mimeType}");
+  header("Content-Type: audio/x-wav");
 
   header('Content-Transfer-Encoding: binary');
 
@@ -268,12 +267,13 @@ function GetSound() {
 
 
 function GetSoundData($p_Captcha, $p_CaptchaId) {
+
   $shouldCache = (
     ($p_Captcha->SoundRegenerationMode == SoundRegenerationMode::None) || // no sound regeneration allowed, so we must cache the first and only generated sound
     DetectIosRangeRequest() // keep the same Captcha sound across all chunked iOS requests
   );
-  if ($shouldCache) {
 
+  if ($shouldCache) {
     $loaded = LoadSoundData($p_Captcha, $p_CaptchaId);
     if (!is_null($loaded)) {
       return $loaded;
@@ -290,23 +290,22 @@ function GetSoundData($p_Captcha, $p_CaptchaId) {
   return $soundBytes;
 }
 
-function GenerateSoundData(SimpleCaptcha $p_Captcha, $p_CaptchaId) {
+function GenerateSoundData($p_Captcha, $p_CaptchaId) {
   $rawSound = $p_Captcha->get_CaptchaBase()->GetSound($p_CaptchaId);
   $p_Captcha->SaveCode($p_CaptchaId, $p_Captcha->CaptchaBase->Code); // always record sound generation count
   return $rawSound;
 }
 
-function SaveSoundData(SimpleCaptcha $p_Captcha, $p_CaptchaId, $p_SoundBytes) {
-  $soundString = base64_encode($p_SoundBytes);
-  $p_Captcha->get_CaptchaPersistence()->GetPersistenceProvider()->Save("BDC_Cached_SoundData_" . $p_CaptchaId, $soundString);
+function SaveSoundData($p_Captcha, $p_CaptchaId, $p_SoundBytes) {
+  $p_Captcha->get_CaptchaPersistence()->GetPersistenceProvider()->Save("BDC_Cached_SoundData_" . $p_CaptchaId, $p_SoundBytes);
 }
 
-function LoadSoundData(SimpleCaptcha $p_Captcha, $p_CaptchaId) {
-  $soundString = $p_Captcha->get_CaptchaPersistence()->GetPersistenceProvider()->Load("BDC_Cached_SoundData_" . $p_CaptchaId);
-  return base64_decode($soundString);
+function LoadSoundData($p_Captcha, $p_CaptchaId) {
+  $soundBytes = $p_Captcha->get_CaptchaPersistence()->GetPersistenceProvider()->Load("BDC_Cached_SoundData_" . $p_CaptchaId);
+  return $soundBytes;
 }
 
-function ClearSoundData(SimpleCaptcha $p_Captcha, $p_CaptchaId) {
+function ClearSoundData($p_Captcha, $p_CaptchaId) {
   $p_Captcha->get_CaptchaPersistence()->GetPersistenceProvider()->Remove("BDC_Cached_SoundData_" . $p_CaptchaId);
 }
 
@@ -314,28 +313,27 @@ function ClearSoundData(SimpleCaptcha $p_Captcha, $p_CaptchaId) {
 // Instead of relying on unreliable user agent checks, we detect the iOS sound
 // requests by the Http headers they will always contain
 function DetectIosRangeRequest() {
-  $detected = false;
-  
-  if(array_key_exists('HTTP_RANGE', $_SERVER) &&
-    BDC_StringHelper::HasValue($_SERVER['HTTP_RANGE'])) {
+  if (array_key_exists('HTTP_RANGE', $_SERVER) 
+    	&& BDC_StringHelper::HasValue($_SERVER['HTTP_RANGE'])) {
 
     // Safari on MacOS and all browsers on <= iOS 10.x
-    if(array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER) &&
-    BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID'])) {
-      $detected = true;
+    if (array_key_exists('HTTP_X_PLAYBACK_SESSION_ID', $_SERVER) 
+    	&& BDC_StringHelper::HasValue($_SERVER['HTTP_X_PLAYBACK_SESSION_ID'])) {
+      return true;
     }
 
+    $userAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? $_SERVER['HTTP_USER_AGENT'] : null;
+
     // all browsers on iOS 11.x and later
-    if(array_key_exists('User-Agent', $_SERVER) &&
-    BDC_StringHelper::HasValue($_SERVER['User-Agent'])) {
-      $userAgent = $_SERVER['User-Agent'];
-      if(strpos($userAgent, "iPhone OS") !== false || strpos($userAgent, "iPad") !== false) { // is iPhone or iPad
-          $detected = true;
+    if (BDC_StringHelper::HasValue($userAgent)) {
+      $userAgentLC = BDC_StringHelper::Lowercase($userAgent);
+      if (BDC_StringHelper::Contains($userAgentLC, "like mac os")) {
+        return true;
       }
     }
   } 
   
-  return $detected;
+  return false;
 }
 
 function GetSoundByteRange() {
@@ -419,7 +417,6 @@ function GetValidationResult() {
   if (isset($userInput) && (isset($captchaId))) {
     $result = $captcha->AjaxValidate($userInput, $captchaId);
   }
-  session_write_close();
 
   $resultJson = GetJsonValidationResult($result);
   echo $resultJson;
@@ -498,19 +495,21 @@ function GetInitScriptInclude() {
   header('Content-Type: text/javascript');
   header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 
-  echo "(function() {\r\n";
+  $script = "(function() {\r\n";
 
   // add init script
-  echo BDC_SimpleCaptchaScriptsHelper::GetInitScriptMarkup($captcha, $captchaId);
+  $script .= BDC_SimpleCaptchaScriptsHelper::GetInitScriptMarkup($captcha, $captchaId);
 
   // add remote scripts if enabled
   if ($captcha->RemoteScriptEnabled) {
-    echo "\r\n";
-    echo BDC_SimpleCaptchaScriptsHelper::GetRemoteScript($captcha, getClientSideFramework());
+    $script .= "\r\n";
+    $script .= BDC_SimpleCaptchaScriptsHelper::GetRemoteScript($captcha, getClientSideFramework());
   }
 
   // close a self-invoking functions
-  echo "\r\n})();";
+  $script .= "\r\n})();";
+
+  echo $script;
 }
 
 function GetCaptchaStyleName() {
@@ -550,16 +549,16 @@ function GetCaptchaObject() {
 
 function GetWebResource($p_Resource, $p_MimeType, $hasEtag = true) {
   header("Content-Type: $p_MimeType");
-  if($hasEtag) {
+  if ($hasEtag) {
     BDC_HttpHelper::AllowEtagCache($p_Resource);
   }
 
   return file_get_contents($p_Resource);
 }
 
-function IsObviousBotRequest(SimpleCaptcha $p_Captcha) {
+function IsObviousBotRequest($p_Captcha) {
 
-  $captchaRequestValidator = new SimpleCaptchaRequestValidator($p_Captcha->CaptchaBase->CaptchaConfiguration);
+  $captchaRequestValidator = new SimpleCaptchaRequestValidator($p_Captcha->Configuration);
 
 
   // some basic request checks

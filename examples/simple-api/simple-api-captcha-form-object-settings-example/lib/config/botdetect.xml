@@ -2,7 +2,7 @@
 <botdetect xmlns="https://captcha.com/schema/php"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://captcha.com/schema/php
-            https://captcha.com/schema/php/botdetect-4.2.1.xsd">
+            https://captcha.com/schema/php/botdetect-4.2.2.xsd">
 
     <captchaStyles>
         <captchaStyle>

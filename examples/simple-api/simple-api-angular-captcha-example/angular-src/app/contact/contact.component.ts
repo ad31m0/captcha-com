@@ -51,9 +51,14 @@ export class ContactComponent implements OnInit {
       return;
     }
 
-    let postData = value;
-    // add captcha captcha id to postData for validating captcha at server-side
-    postData['captchaId'] = this.captchaComponent.captchaId;
+    let postData = {
+      name: value.name,
+      email: value.email,
+      subject: value.subject,
+      message: value.message,
+      captchaCode: this.captchaComponent.captchaCode,
+      captchaId: this.captchaComponent.captchaId
+    };
 
     this.contactService.send(postData)
       .subscribe(

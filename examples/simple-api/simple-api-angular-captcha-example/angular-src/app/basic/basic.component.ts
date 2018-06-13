@@ -36,8 +36,8 @@ export class BasicComponent {
       return;
     }
 
-    const postData = {
-      captchaCode: value.captchaCode,
+    let postData = {
+      captchaCode: this.captchaComponent.captchaCode,
       captchaId: this.captchaComponent.captchaId
     }
   
