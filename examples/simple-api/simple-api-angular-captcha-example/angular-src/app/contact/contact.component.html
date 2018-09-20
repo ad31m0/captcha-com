@@ -84,16 +84,9 @@
       id="captchaCode"
       name="captchaCode"
       formControlName="captchaCode"
-      correctCaptcha
-      >
+    >
   </label>
 
-  <div
-    class="error"
-    *ngIf="contact.get('captchaCode').hasError('incorrectCaptcha') && !contact.get('captchaCode').pristine"
-    >
-    Incorrect code.
-  </div>
 
-  <button type="submit" [disabled]="contact.invalid">Send</button>
+  <button type="submit">Send</button>
 </form>

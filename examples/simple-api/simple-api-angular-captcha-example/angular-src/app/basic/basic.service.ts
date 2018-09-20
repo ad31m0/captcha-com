@@ -11,7 +11,7 @@ export class BasicService {
 
   constructor(private http: Http) { }
 
-  validateCaptcha(data: Object): Observable<any> {
+  send(data: Object): Observable<any> {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
 

@@ -66,9 +66,6 @@ try {
     case BDC_SimpleCaptchaHttpCommand::GetScriptInclude:
       GetScriptInclude();
       break;
-    case BDC_SimpleCaptchaHttpCommand::GetInitScriptInclude:
-      GetInitScriptInclude();
-      break;
     case BDC_SimpleCaptchaHttpCommand::GetLayoutStyleSheet:
       GetLayoutStyleSheet();
       break;
@@ -327,7 +324,7 @@ function DetectIosRangeRequest() {
     // all browsers on iOS 11.x and later
     if (BDC_StringHelper::HasValue($userAgent)) {
       $userAgentLC = BDC_StringHelper::Lowercase($userAgent);
-      if (BDC_StringHelper::Contains($userAgentLC, "like mac os")) {
+      if (BDC_StringHelper::Contains($userAgentLC, "like mac os") || BDC_StringHelper::Contains($userAgentLC, "like macos")) {
         return true;
       }
     }
@@ -470,14 +467,6 @@ function GetLayoutStyleSheet() {
 }
 
 function GetScriptInclude() {
-  // response MIME type & headers
-  header("Access-Control-Allow-Origin: *");
-
-  $filePath = BDC_URL_ROOT . 'bdc-simple-api-script-include.js';
-  echo GetWebResource($filePath, 'text/javascript', false);
-}
-
-function GetInitScriptInclude() {
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
 
@@ -495,9 +484,10 @@ function GetInitScriptInclude() {
   header('Content-Type: text/javascript');
   header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 
-  $script = "(function() {\r\n";
+  // 1. load BotDetect script
+  $script = GetWebResource(BDC_URL_ROOT . 'bdc-simple-api-script-include.js', 'text/javascript', false);
 
-  // add init script
+  // 2. load BotDetect Init script
   $script .= BDC_SimpleCaptchaScriptsHelper::GetInitScriptMarkup($captcha, $captchaId);
 
   // add remote scripts if enabled
@@ -506,9 +496,6 @@ function GetInitScriptInclude() {
     $script .= BDC_SimpleCaptchaScriptsHelper::GetRemoteScript($captcha, getClientSideFramework());
   }
 
-  // close a self-invoking functions
-  $script .= "\r\n})();";
-
   echo $script;
 }
 
@@ -516,11 +503,11 @@ function GetCaptchaStyleName() {
   $captchaStyleName = $_GET['c'];
 
   if (!BDC_StringHelper::HasValue($captchaStyleName)) {
-      return null;
+    return null;
   }
   
   if (1 !== preg_match(BDC_SimpleCaptchaBase::VALID_CAPTCHA_STYLE_NAME, $captchaStyleName)) {
-      return null;
+    return null;
   }
   
   return $captchaStyleName;

@@ -31,36 +31,44 @@ export class BasicComponent {
    * Validate captcha at server-side.
    */
   validate(value, valid): void {
+    // use validateUnsafe() method to perform client-side captcha validation
+    this.captchaComponent.validateUnsafe((isCaptchaCodeCorrect: boolean) => {
 
-    if (!valid) {
-      return;
-    }
+      if (isCaptchaCodeCorrect) {
 
-    let postData = {
-      captchaCode: this.captchaComponent.captchaCode,
-      captchaId: this.captchaComponent.captchaId
-    }
-  
-    this.basicService.validateCaptcha(postData)
-      .subscribe(
-        response => {
-          if (response.success) {
-            // captcha, other form data passed and the data is also stored in database
-            this.successMessages = 'Your message was sent successfully!';
-            this.errorMessages = '';
-          } else {
-            // captcha validation failed at server-side
-            this.errorMessages = 'CAPTCHA validation falied.';
-            this.successMessages = '';
-          }
+        // after UI form validation passed, 
+        // we will need to validate captcha at server-side once before we save form data in database, etc.
 
-          // always reload captcha image after validating captcha at server-side 
-          // in order to update new captcha code for current captcha id
-          this.captchaComponent.reloadImage();
-        },
-        error => {
-          throw new Error(error);
-        });
+        const postData = {
+          captchaCode: this.captchaComponent.captchaCode,
+          captchaId: this.captchaComponent.captchaId
+        };
+      
+        this.basicService.send(postData)
+          .subscribe(
+            response => {
+              if (response.success) {
+                // captcha, other form data passed and the data is also stored in database
+                this.successMessages = 'Your message was sent successfully!';
+                this.errorMessages = '';
+              } else {
+                // captcha validation failed at server-side
+                this.errorMessages = 'CAPTCHA validation falied.';
+                this.successMessages = '';
+              }
+
+              // always reload captcha image after validating captcha at server-side 
+              // in order to update new captcha code for current captcha id
+              this.captchaComponent.reloadImage();
+            },
+            error => {
+              throw new Error(error);
+            });
+      } else {
+        this.errorMessages = 'CAPTCHA validation falied.';
+        this.successMessages = '';
+      }
+    });
   }
 
 }

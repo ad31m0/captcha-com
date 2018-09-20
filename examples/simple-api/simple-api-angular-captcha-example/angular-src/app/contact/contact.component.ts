@@ -38,47 +38,61 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {
     this.contact = this.fb.group({
-      name: ['', Validators.minLength(3)],
-      email: ['', Validators.pattern(this.emailRegex)],
-      subject: ['', Validators.minLength(10)],
-      message: ['', Validators.minLength(10)],
-      captchaCode: [''] // we use 'correctCaptcha' directive to validate captcha code control in the template
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['',  [Validators.required, Validators.pattern(this.emailRegex)]],
+      subject: ['',  [Validators.required,Validators.minLength(10)]],
+      message: ['',  [Validators.required,Validators.minLength(10)]],
+      captchaCode: [''] // we use 'validateUnsafe' method to validate captcha code control when form is submitted
     });
   }
 
-  send({ value, valid }: { value: Contact, valid: boolean }): void {
-    if (!valid) {
-      return;
-    }
+  send({ value }: { value: Contact }): void {
 
-    let postData = {
-      name: value.name,
-      email: value.email,
-      subject: value.subject,
-      message: value.message,
-      captchaCode: this.captchaComponent.captchaCode,
-      captchaId: this.captchaComponent.captchaId
-    };
+    // use validateUnsafe() method to perform client-side captcha validation
+    this.captchaComponent.validateUnsafe((isCaptchaCodeCorrect: boolean) => {
 
-    this.contactService.send(postData)
-      .subscribe(
-        response => {
-          if (response.success) {
-            // captcha validation passed at server-side
-            this.successMessages = 'CAPTCHA validation passed.';
-            this.errorMessages = null;
-          } else {
-            // captcha validation failed at server-side
-            this.errorMessages = response.errors;
-            this.successMessages = '';
-          }
+      if (isCaptchaCodeCorrect && this.contact.controls.name.valid && this.contact.controls.email.valid
+            && this.contact.controls.subject.valid && this.contact.controls.message.valid) {
 
-          // always reload captcha image after validating captcha at server-side 
-          // in order to update new captcha code for current captcha id
-          this.captchaComponent.reloadImage();
-        },
-        error => {
-          throw new Error(error);
-        });
+        // form is valid
+        // we send contact data as well as captcha data to server-side for
+        // validating once again before they are inserted into database
+
+        let postData = {
+          name: value.name,
+          email: value.email,
+          subject: value.subject,
+          message: value.message,
+          captchaCode: this.captchaComponent.captchaCode,
+          captchaId: this.captchaComponent.captchaId
+        };
+    
+        this.contactService.send(postData)
+          .subscribe(
+            response => {
+              if (response.success) {
+                // captcha validation passed at server-side
+                this.successMessages = 'CAPTCHA validation passed.';
+                this.errorMessages = null;
+              } else {
+                // captcha validation failed at server-side
+                this.errorMessages = response.errors;
+                this.successMessages = '';
+              }
+    
+              // always reload captcha image after validating captcha at server-side 
+              // in order to update new captcha code for current captcha id
+              this.captchaComponent.reloadImage();
+            },
+            error => {
+              throw new Error(error);
+            });
+            
+      } else {
+        this.errorMessages = { formInvalid: 'Please enter valid values.' }
+        this.successMessages = '';
+      }
+    });
+
   }
 }

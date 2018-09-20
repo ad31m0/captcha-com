@@ -19,16 +19,8 @@
       name="captchaCode"
       ngModel
       #captchaCode="ngModel"
-      correctCaptcha
       >
   </label>
 
-  <div
-    class="error"
-    *ngIf="captchaCode.errors?.incorrectCaptcha && !captchaCode.pristine"
-    >
-    Incorrect code.
-  </div>
-
-  <button type="submit" [disabled]="f.invalid">Validate</button>
+  <button type="submit">Validate</button>
 </form>

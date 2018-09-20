@@ -14,13 +14,8 @@
     <label>
         <span>Retype the characters from the picture:</span>
         <!-- captcha code user input textbox -->
-        <input type="text" name="captchaCode" ng-model="captchaCode" correct-captcha id="captchaCode" autocomplete="off">
+        <input type="text" name="captchaCode" ng-model="captchaCode" id="captchaCode" autocomplete="off">
     </label>
 
-
-    <div class="error" ng-show="basicForm.captchaCode.$invalid && !basicForm.captchaCode.$pristine">
-        Incorrect code.
-    </div>
-
-    <button type="submit" ng-disabled="basicForm.$invalid">Validate</button>
+    <button type="submit">Validate</button>
 </form>

@@ -27,8 +27,8 @@ try {
     case BDC_CaptchaHttpCommand::GetValidationResult:
       GetValidationResult();
       break;
-    case BDC_CaptchaHttpCommand::GetInitScriptInclude:
-      GetInitScriptInclude();
+    case BDC_CaptchaHttpCommand::GetScriptInclude:
+      GetScriptInclude();
       break;
     case BDC_CaptchaHttpCommand::GetP:
       GetP();
@@ -233,7 +233,7 @@ function DetectIosRangeRequest() {
     // all browsers on iOS 11.x and later
     if (BDC_StringHelper::HasValue($userAgent)) {
       $userAgentLC = BDC_StringHelper::Lowercase($userAgent);
-      if (BDC_StringHelper::Contains($userAgentLC, "like mac os")) {
+      if (BDC_StringHelper::Contains($userAgentLC, "like mac os") || BDC_StringHelper::Contains($userAgentLC, "like macos")) {
         return true;
       }
     }
@@ -305,7 +305,7 @@ function GetValidationResult() {
 }
 
 
-function GetInitScriptInclude() {
+function GetScriptInclude() {
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
   if (is_null($captcha)) {
@@ -322,19 +322,17 @@ function GetInitScriptInclude() {
   header('Content-Type: text/javascript');
   header('X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 
-  $script = "(function() {\r\n";
+  // 1. load BotDetect script
+  $script = GetWebResource(BDC_URL_ROOT . 'bdc-traditional-api-script-include.js', 'text/javascript', false);
 
-  // add init script
-  echo BDC_CaptchaScriptsHelper::GetInitScriptMarkup($captcha, $instanceId);
+  // 2. load BotDetect Init script
+  $script .= BDC_CaptchaScriptsHelper::GetInitScriptMarkup($captcha, $instanceId);
 
   // add remote scripts if enabled
   if ($captcha->RemoteScriptEnabled) {
     $script .= "\r\n";
     $script .= BDC_CaptchaScriptsHelper::GetRemoteScript($captcha);
   }
-
-  // close a self-invoking functions
-  $script .= "\r\n})();";
 
   echo $script;
 }
@@ -409,6 +407,15 @@ function GetUserInput() {
 function GetJsonValidationResult($p_Result) {
   $resultStr = ($p_Result ? 'true': 'false');
   return $resultStr;
+}
+
+function GetWebResource($p_Resource, $p_MimeType, $hasEtag = true) {
+  header("Content-Type: $p_MimeType");
+  if ($hasEtag) {
+    BDC_HttpHelper::AllowEtagCache($p_Resource);
+  }
+
+  return file_get_contents($p_Resource);
 }
 
 function GetP() {
