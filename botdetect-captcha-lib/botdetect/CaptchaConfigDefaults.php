@@ -68,6 +68,7 @@ $BDC_CaptchaConfig->JavaScriptRequired = true;
 
 // Captcha-related PHP applicaton settings
 // ---------------------------------------------------------------------------
+$BDC_CaptchaConfig->ErrorLoggingEnabled = false;
 $BDC_CaptchaConfig->HandlerUrl = 'botdetect.php';
 $BDC_CaptchaConfig->SaveFunctionName = 'PHP_Session_Save';
 $BDC_CaptchaConfig->LoadFunctionName = 'PHP_Session_Load';

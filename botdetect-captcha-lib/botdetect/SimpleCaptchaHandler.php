@@ -22,7 +22,7 @@ try {
       GetImage();
       break;
     case BDC_SimpleCaptchaHttpCommand::GetBase64ImageString:
-    GetBase64ImageString();
+      GetBase64ImageString();
       break;
     case BDC_SimpleCaptchaHttpCommand::GetSound:
       GetSound();
@@ -88,13 +88,14 @@ exit;
 
 // Returns the Captcha image binary data
 function GetImage() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
   
-  // authenticate client-side request
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
-  }
+  // // authenticate client-side request
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  // }
 
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
@@ -121,13 +122,14 @@ function GetImage() {
 }
 
 function GetBase64ImageString() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
   
-  // authenticate client-side request
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
-  }
+  // // authenticate client-side request
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  // }
   
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
@@ -179,13 +181,14 @@ function GetImageData($p_Captcha) {
 
 
 function GetSound() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
   
-  // authenticate client-side request
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
-  }
+  // // authenticate client-side request
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  // }
 
   $captcha = GetCaptchaObject();
   if (is_null($captcha)) {
@@ -365,16 +368,25 @@ function DetectFakeRangeRequest() {
 }
 
 function GetHtml() {
-  header("Access-Control-Allow-Origin: *");
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  // }
+  $captcha = null;
+  try {
+    BDC_CaptchaEndpointConfig::EnableCors();
+    BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
+    BDC_CaptchaEndpointConfig::AddContentTypeTextHtmlCharsetHeader();
 
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+    $captcha = GetCaptchaObject();
+  } catch (CaptchaStyleNameNotFoundException $ex) {
+    BDC_HttpHelper::BadRequest($ex->getMessage());
+  } catch (Exception $ex) {
+    BDC_HttpHelper::InternalServerError($ex->getMessage());
   }
 
-  $captcha = GetCaptchaObject();
   if (is_null($captcha)) {
-    BDC_HttpHelper::BadRequest('captcha');
+    BDC_HttpHelper::BadRequest('Captcha doesn\'t exist');
   }
 
   $html = "<div>" . $captcha->Html() . "</div>";
@@ -383,14 +395,15 @@ function GetHtml() {
 
 // Used for client-side validation, returns Captcha validation result as JSON
 function GetValidationResult() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
   
-  // authenticate client-side request
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
-    return null;
-  }
+  // // authenticate client-side request
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  //   return null;
+  // }
 
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
@@ -469,18 +482,19 @@ function GetLayoutStyleSheet() {
 }
 
 function GetScriptInclude() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
 
   // saved data for the specified Captcha object in the application
   $captcha = GetCaptchaObject();
 
   if (is_null($captcha)) {
-    BDC_HttpHelper::BadRequest('captcha');
+    BDC_HttpHelper::BadRequest('Captcha doesn\'t exist');
   }
   // identifier of the particular Captcha object instance
   $captchaId = GetCaptchaId();
   if (is_null($captchaId)) {
-    BDC_HttpHelper::BadRequest('instance');
+    BDC_HttpHelper::BadRequest('Captcha Id doesn\'t exist');
   }
 
   // response MIME type & headers
@@ -532,13 +546,7 @@ function GetCaptchaObject() {
     }
   }
 
-  $captcha = null;
-  try {
-    $captcha = new SimpleCaptcha($captchaStyleName, $captchaId);
-  } catch (CaptchaStyleNameNotFoundException $ex) {
-    BDC_HttpHelper::BadRequest($ex->getMessage());
-  }
-  
+  $captcha = new SimpleCaptcha($captchaStyleName, $captchaId);
   return $captcha;
 }
 
@@ -627,13 +635,14 @@ function GetJsonValidationResult($p_Result) {
 }
 
 function GetP() {
-  header("Access-Control-Allow-Origin: *");
+  BDC_CaptchaEndpointConfig::EnableCors();
+  BDC_CaptchaEndpointConfig::AddUserDefinedHttpHeaders();
   
-  // authenticate client-side request
-  $corsAuth = new CorsAuth();
-  if (!$corsAuth->IsClientAllowed()) {
-    BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
-  }
+  // // authenticate client-side request
+  // $corsAuth = new CorsAuth();
+  // if (!$corsAuth->IsClientAllowed()) {
+  //   BDC_HttpHelper::BadRequest($corsAuth->GetFrontEnd() . " is not an allowed front-end");
+  // }
   
   $captcha = GetCaptchaObject();
   if (is_null($captcha)) {
