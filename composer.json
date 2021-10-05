@@ -1,6 +1,6 @@
 {
-    "name": "captcha-com/captcha",
-    "description": "Captcha Generator -- BotDetect PHP CAPTCHA Free composer package.",
+    "name": "ad31m0/captcha",
+    "description": "clone of Captcha Generator -- BotDetect PHP CAPTCHA Free composer package.",
     "keywords": ["captcha", "captcha generator", "php captcha", "captcha library"],
     "homepage": "https://captcha.com/php-captcha.html",
     "license": "proprietary",
